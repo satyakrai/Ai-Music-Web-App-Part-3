@@ -9,8 +9,22 @@ function setup(){
     canvas.center();
     video=createCapture(VIDEO);
     video.hide();
+        poseNet=ml5.poseNet(video, modelLoaded);
+    poseNet.on("pose", gotPoses);
 }
-
+function gotPoses(results){
+    console.log(results);
+    leftWrist_score=results[0].pose.keypoints[9].score;
+    console.log(leftWrist_score);
+    leftWristX=results[0].pose.leftWrist.x;
+    leftWristY=results[0].pose.leftWrist.y;
+    console.log("LeftWristX="+leftWristX+"LeftWristY="+leftWristY);
+    rightWristX=results[0].pose.rightWrist.x;
+    rightWristY=results[0].pose.rightWrist.y;
+    console.log("rightWristX="+leftWristX+"rightWristY="+rightWristY);
+    rightWrist_score=results[0].pose.keypoints[10].score;
+    console.log(rightWrist_score);
+}
 function modelLoaded(){
     console.log("Posenet is initialized!");
 }
